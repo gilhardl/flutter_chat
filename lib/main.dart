@@ -33,10 +33,22 @@ class ChatScreenState extends State<ChatScreen> {
   Widget _buildMessageComposer() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
-      child: TextField(
-        controller: _textCtrl,
-        onSubmitted: _handleSubmitted,
-        decoration: InputDecoration.collapsed(hintText: "Send a message")
+      child: Row(
+        children: <Widget>[
+          Flexible(
+              child: TextField(
+              controller: _textCtrl,
+              onSubmitted: _handleSubmitted,
+              decoration: InputDecoration.collapsed(hintText: "Send a message")
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 4.0),
+            child: IconButton(
+              icon: Icon(Icons.send), 
+              onPressed: () => _handleSubmitted(_textCtrl.text),),
+          )
+        ],
       )
     );
   }
