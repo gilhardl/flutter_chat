@@ -25,31 +25,33 @@ class ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(title: new Text("Friendlychat")),
-      body: _buildMessageComposer()
-    );
+        appBar: new AppBar(title: new Text("Friendlychat")),
+        body: _buildMessageComposer());
   }
 
   Widget _buildMessageComposer() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      child: Row(
-        children: <Widget>[
-          Flexible(
-              child: TextField(
-              controller: _textCtrl,
-              onSubmitted: _handleSubmitted,
-              decoration: InputDecoration.collapsed(hintText: "Send a message")
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 4.0),
-            child: IconButton(
-              icon: Icon(Icons.send), 
-              onPressed: () => _handleSubmitted(_textCtrl.text),),
-          )
-        ],
-      )
+    return IconTheme(
+      data: IconThemeData(color: Theme.of(context).accentColor),
+      child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 8),
+          child: Row(
+            children: <Widget>[
+              Flexible(
+                child: TextField(
+                    controller: _textCtrl,
+                    onSubmitted: _handleSubmitted,
+                    decoration:
+                        InputDecoration.collapsed(hintText: "Send a message")),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 4.0),
+                child: IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: () => _handleSubmitted(_textCtrl.text),
+                ),
+              )
+            ],
+          )),
     );
   }
 
