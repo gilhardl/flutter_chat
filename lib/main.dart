@@ -80,7 +80,7 @@ class ChatScreenState extends State<ChatScreen> {
     _textCtrl.clear();
     ChatMessage message = ChatMessage(text: text);
     setState(() {
-      _messages.add(message);
+      _messages.insert(0, message);
     });
   }
 }
