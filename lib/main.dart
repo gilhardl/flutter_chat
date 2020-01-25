@@ -25,6 +25,7 @@ class ChatScreen extends StatefulWidget {
 class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   final List<ChatMessage> _messages = <ChatMessage>[];
   final TextEditingController _textCtrl = TextEditingController();
+  bool _isComposing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +62,7 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 child: TextField(
                     controller: _textCtrl,
                     onSubmitted: _handleSubmitted,
+                    onChanged: _handleChanged,
                     decoration:
                         InputDecoration.collapsed(hintText: "Send a message")),
               ),
@@ -68,7 +70,9 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 margin: EdgeInsets.symmetric(horizontal: 4.0),
                 child: IconButton(
                   icon: Icon(Icons.send),
-                  onPressed: () => _handleSubmitted(_textCtrl.text),
+                  onPressed: _isComposing
+                      ? () => _handleSubmitted(_textCtrl.text)
+                      : null,
                 ),
               )
             ],
@@ -88,8 +92,15 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     );
     setState(() {
       _messages.insert(0, message);
+      _isComposing = false;
     });
     message.animationController.forward();
+  }
+
+  void _handleChanged(String text) {
+    setState(() {
+      _isComposing = text.length > 0;
+    });
   }
 }
 
@@ -113,15 +124,17 @@ class ChatMessage extends StatelessWidget {
               margin: const EdgeInsets.only(right: 16.0),
               child: CircleAvatar(child: Text(_name[0])),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(_name, style: Theme.of(context).textTheme.subhead),
-                Container(
-                  margin: const EdgeInsets.only(top: 5.0),
-                  child: Text(text),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(_name, style: Theme.of(context).textTheme.subhead),
+                  Container(
+                    margin: const EdgeInsets.only(top: 5.0),
+                    child: Text(text),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
